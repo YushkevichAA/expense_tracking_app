@@ -1,5 +1,5 @@
 {
-  "version": "2.21",
+  "version": "2.22",
   "children": [
     {
       "type": "frame",
@@ -48,7 +48,8 @@
           "width": 160,
           "content": "учебный MVP",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "rectangle",
@@ -186,7 +187,8 @@
           "width": 180,
           "content": "Только ручной учёт",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -199,7 +201,8 @@
           "width": 190,
           "content": "Без банковских интеграций",
           "fontFamily": "$font",
-          "fontSize": 11
+          "fontSize": 11,
+          "fontWeight": "normal"
         },
         {
           "type": "rectangle",
@@ -236,7 +239,8 @@
           "width": 220,
           "content": "Ноябрь 2026",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "icon",
@@ -337,7 +341,8 @@
               "width": 500,
               "content": "Контролируйте бюджет спокойно и без лишних сложностей",
               "fontFamily": "$font",
-              "fontSize": 13
+              "fontSize": 13,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -438,7 +443,8 @@
                   "width": 282,
                   "content": "Доступно после расходов",
                   "fontFamily": "$font",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -503,7 +509,8 @@
                   "width": 202,
                   "content": "за ноябрь",
                   "fontFamily": "$font",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -568,7 +575,8 @@
                   "width": 202,
                   "content": "на 12% меньше прошлого месяца",
                   "fontFamily": "$font",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -781,7 +789,8 @@
                   "width": 30,
                   "content": "1",
                   "fontFamily": "$font",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "rectangle",
@@ -816,7 +825,8 @@
                   "width": 30,
                   "content": "7",
                   "fontFamily": "$font",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "rectangle",
@@ -851,7 +861,8 @@
                   "width": 30,
                   "content": "14",
                   "fontFamily": "$font",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "rectangle",
@@ -886,7 +897,8 @@
                   "width": 30,
                   "content": "21",
                   "fontFamily": "$font",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "rectangle",
@@ -921,7 +933,8 @@
                   "width": 30,
                   "content": "28",
                   "fontFamily": "$font",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "rectangle",
@@ -956,7 +969,8 @@
                   "width": 30,
                   "content": "30",
                   "fontFamily": "$font",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -1034,7 +1048,8 @@
                       "width": 62,
                       "content": "12 ноя",
                       "fontFamily": "$font",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1061,7 +1076,8 @@
                       "width": 92,
                       "content": "Кофе и перекус",
                       "fontFamily": "$font",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1123,7 +1139,8 @@
                       "width": 62,
                       "content": "10 ноя",
                       "fontFamily": "$font",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1150,7 +1167,8 @@
                       "width": 92,
                       "content": "За ноябрь",
                       "fontFamily": "$font",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1212,7 +1230,8 @@
                       "width": 62,
                       "content": "08 ноя",
                       "fontFamily": "$font",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1239,7 +1258,8 @@
                       "width": 92,
                       "content": "Проездной",
                       "fontFamily": "$font",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1301,7 +1321,8 @@
                       "width": 62,
                       "content": "05 ноя",
                       "fontFamily": "$font",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1328,7 +1349,8 @@
                       "width": 92,
                       "content": "Учебники",
                       "fontFamily": "$font",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1458,7 +1480,8 @@
           "width": 160,
           "content": "учебный MVP",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "rectangle",
@@ -1596,7 +1619,8 @@
           "width": 180,
           "content": "Только ручной учёт",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -1609,7 +1633,8 @@
           "width": 190,
           "content": "Без банковских интеграций",
           "fontFamily": "$font",
-          "fontSize": 11
+          "fontSize": 11,
+          "fontWeight": "normal"
         },
         {
           "type": "rectangle",
@@ -1646,7 +1671,8 @@
           "width": 220,
           "content": "Ноябрь 2026",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "icon",
@@ -1748,7 +1774,8 @@
               "width": 400,
               "content": "Ручной учёт доходов и расходов",
               "fontFamily": "$font",
-              "fontSize": 13
+              "fontSize": 13,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -1813,7 +1840,8 @@
                       "width": 70,
                       "content": "Период",
                       "fontFamily": "$font",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "rectangle",
@@ -1839,7 +1867,8 @@
                       "width": 130,
                       "content": "Ноябрь 2026",
                       "fontFamily": "$font",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "icon",
@@ -1864,7 +1893,8 @@
                       "width": 100,
                       "content": "Тип операции",
                       "fontFamily": "$font",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "rectangle",
@@ -1890,7 +1920,8 @@
                       "width": 130,
                       "content": "Все типы",
                       "fontFamily": "$font",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "icon",
@@ -1915,7 +1946,8 @@
                       "width": 90,
                       "content": "Категория",
                       "fontFamily": "$font",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "rectangle",
@@ -1941,7 +1973,8 @@
                       "width": 130,
                       "content": "Все категории",
                       "fontFamily": "$font",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "icon",
@@ -2114,7 +2147,8 @@
                   "width": 110,
                   "content": "12 ноя 2026",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -2169,7 +2203,8 @@
                   "width": 230,
                   "content": "Кофе и перекус",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2218,7 +2253,8 @@
                   "width": 110,
                   "content": "10 ноя 2026",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -2273,7 +2309,8 @@
                   "width": 230,
                   "content": "За ноябрь",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2322,7 +2359,8 @@
                   "width": 110,
                   "content": "08 ноя 2026",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -2377,7 +2415,8 @@
                   "width": 230,
                   "content": "Проездной",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2466,7 +2505,8 @@
                   "width": 440,
                   "content": "Добавьте первую операцию, чтобы начать вести бюджет",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -2549,7 +2589,8 @@
           "width": 160,
           "content": "учебный MVP",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "rectangle",
@@ -2687,7 +2728,8 @@
           "width": 180,
           "content": "Только ручной учёт",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -2700,7 +2742,8 @@
           "width": 190,
           "content": "Без банковских интеграций",
           "fontFamily": "$font",
-          "fontSize": 11
+          "fontSize": 11,
+          "fontWeight": "normal"
         },
         {
           "type": "rectangle",
@@ -2737,7 +2780,8 @@
           "width": 220,
           "content": "Ноябрь 2026",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "icon",
@@ -2878,7 +2922,8 @@
               "width": 500,
               "content": "Открыт диалог добавления операции",
               "fontFamily": "$font",
-              "fontSize": 16
+              "fontSize": 16,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -2929,7 +2974,8 @@
               "width": 24,
               "content": "×",
               "fontFamily": "$font",
-              "fontSize": 24
+              "fontSize": 24,
+              "fontWeight": "normal"
             },
             {
               "type": "text",
@@ -2942,7 +2988,8 @@
               "width": 180,
               "content": "Тип операции",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -3008,7 +3055,8 @@
               "width": 220,
               "content": "Сумма в рублях",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "rectangle",
@@ -3034,7 +3082,8 @@
               "width": 220,
               "content": "Введите сумму",
               "fontFamily": "$font",
-              "fontSize": 14
+              "fontSize": 14,
+              "fontWeight": "normal"
             },
             {
               "type": "text",
@@ -3047,7 +3096,8 @@
               "width": 300,
               "content": "Укажите сумму больше 0",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "text",
@@ -3060,7 +3110,8 @@
               "width": 180,
               "content": "Дата",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "rectangle",
@@ -3086,7 +3137,8 @@
               "width": 140,
               "content": "12.11.2026",
               "fontFamily": "$font",
-              "fontSize": 14
+              "fontSize": 14,
+              "fontWeight": "normal"
             },
             {
               "type": "icon",
@@ -3111,7 +3163,8 @@
               "width": 180,
               "content": "Категория",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "rectangle",
@@ -3137,7 +3190,8 @@
               "width": 120,
               "content": "Питание",
               "fontFamily": "$font",
-              "fontSize": 14
+              "fontSize": 14,
+              "fontWeight": "normal"
             },
             {
               "type": "icon",
@@ -3162,7 +3216,8 @@
               "width": 180,
               "content": "Комментарий",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "rectangle",
@@ -3188,7 +3243,8 @@
               "width": 350,
               "content": "Кофе и перекус",
               "fontFamily": "$font",
-              "fontSize": 14
+              "fontSize": 14,
+              "fontWeight": "normal"
             },
             {
               "type": "rectangle",
@@ -3211,7 +3267,8 @@
               "width": 360,
               "content": "Данные сохраняются только в этом учебном MVP",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -3340,7 +3397,8 @@
           "width": 160,
           "content": "учебный MVP",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "rectangle",
@@ -3478,7 +3536,8 @@
           "width": 180,
           "content": "Только ручной учёт",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -3491,7 +3550,8 @@
           "width": 190,
           "content": "Без банковских интеграций",
           "fontFamily": "$font",
-          "fontSize": 11
+          "fontSize": 11,
+          "fontWeight": "normal"
         },
         {
           "type": "rectangle",
@@ -3528,7 +3588,8 @@
           "width": 220,
           "content": "Учебный год 2026/27",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "icon",
@@ -3630,7 +3691,8 @@
               "width": 500,
               "content": "Планируйте сроки и отмечайте оплату вручную",
               "fontFamily": "$font",
-              "fontSize": 13
+              "fontSize": 13,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -3683,7 +3745,8 @@
                   "width": 300,
                   "content": "Запланировано на учебный год",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -3710,7 +3773,8 @@
                   "width": 260,
                   "content": "3 платежа · 1 оплачено",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -3820,7 +3884,8 @@
                   "width": 150,
                   "content": "25 ноя 2026",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -3940,7 +4005,8 @@
                   "width": 150,
                   "content": "20 янв 2027",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -4036,7 +4102,8 @@
                   "width": 150,
                   "content": "25 фев 2027",
                   "fontFamily": "$font",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -4244,7 +4311,8 @@
               "width": 180,
               "content": "Ноябрь 2026",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -4335,7 +4403,8 @@
                   "width": 306,
                   "content": "Доступно после расходов",
                   "fontFamily": "$font",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -4400,7 +4469,8 @@
                   "width": 306,
                   "content": "за ноябрь",
                   "fontFamily": "$font",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -4465,7 +4535,8 @@
                   "width": 306,
                   "content": "на 12% меньше прошлого месяца",
                   "fontFamily": "$font",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -4492,7 +4563,8 @@
                   "width": 210,
                   "content": "Ближайший платёж",
                   "fontFamily": "$font",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -4701,7 +4773,8 @@
           "width": 300,
           "content": "учебный MVP для личного бюджета",
           "fontFamily": "$font",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "icon",
@@ -4752,7 +4825,8 @@
               "width": 348,
               "content": "Введите данные, чтобы продолжить",
               "fontFamily": "$font",
-              "fontSize": 13
+              "fontSize": 13,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -4857,7 +4931,8 @@
               "width": 270,
               "content": "anna@example.ru",
               "fontFamily": "$font",
-              "fontSize": 14
+              "fontSize": 14,
+              "fontWeight": "normal"
             },
             {
               "type": "text",
@@ -4909,7 +4984,8 @@
               "width": 230,
               "content": "••••••",
               "fontFamily": "$font",
-              "fontSize": 14
+              "fontSize": 14,
+              "fontWeight": "normal"
             },
             {
               "type": "icon",
@@ -4934,7 +5010,8 @@
               "width": 340,
               "content": "Неверный пароль. Попробуйте ещё раз.",
               "fontFamily": "$font",
-              "fontSize": 12
+              "fontSize": 12,
+              "fontWeight": "normal"
             },
             {
               "type": "text",
@@ -5036,7 +5113,8 @@
               "width": 348,
               "content": "Учебный режим: без банковских подключений и реальных платежей",
               "fontFamily": "$font",
-              "fontSize": 11
+              "fontSize": 11,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -5051,7 +5129,8 @@
           "width": 400,
           "content": "© 2026 ФинПлан · Только демонстрационные данные",
           "fontFamily": "$font",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         }
       ]
     }
