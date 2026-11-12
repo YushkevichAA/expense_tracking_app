@@ -21,6 +21,7 @@ import { AuthModule } from './auth/auth.module.js';
       synchronize: process.env.MODE === 'development' ? true : false,
     }),
     AuthenticationModule.forRoot({
+      globalGuard: false,
       session: {
         absoluteTtl: '14d',
         idleTtl: '3d',
@@ -29,7 +30,7 @@ import { AuthModule } from './auth/auth.module.js';
     AuthModule,
     UserModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

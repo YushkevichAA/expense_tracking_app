@@ -1,34 +1,45 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AuthService } from './auth.service.js';
-import { CreateAuthDto } from './dto/create-auth.dto.js';
-import { UpdateAuthDto } from './dto/update-auth.dto.js';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Public, SignInService } from '@nestjs/authentication';
+import { CredentialsService } from './credentials.service.js';
+import { SignInDto, SignUpDto } from './dto/auth.dto.js';
 
+@Public()
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly credentialsService: CredentialsService,
+    private readonly signInService: SignInService,
+  ) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post('sign-up')
+  async signUp(@Body() body: SignUpDto) {
+    const user = await this.credentialsService.register(
+      body.email,
+      body.password,
+    );
+    await this.signInService.signIn(user.id, { method: 'password' });
+    return user;
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Post('sign-in')
+  @HttpCode(200)
+  async signIn(@Body() body: SignInDto) {
+    const user = await this.credentialsService.verify(
+      body.email,
+      body.password,
+    );
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+    const { session } = await this.signInService.signIn(user.id, {
+      method: 'password',
+    });
+    return { mfaRequired: session.mfa === 'pending' };
   }
 }
