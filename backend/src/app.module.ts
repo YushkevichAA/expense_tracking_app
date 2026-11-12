@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { resolve } from 'node:path';
 import { AuthenticationModule } from '@nestjs/authentication';
+import { AuthModule } from './auth/auth.module.js';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthenticationModule } from '@nestjs/authentication';
       synchronize: process.env.MODE === 'development' ? true : false,
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
