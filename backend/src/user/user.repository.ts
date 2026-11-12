@@ -24,7 +24,7 @@ export class UsersRepository {
         id: randomUUID(),
         email: normalize(email),
         emailVerified,
-        roles: ['customer'],
+        role: 'customer',
         passwordHash,
       }),
     );
@@ -32,7 +32,7 @@ export class UsersRepository {
     return { id: user.id, email: user.email };
   }
 
-  findById(id: string): Promise<PublicUser | null> {
+  async findById(id: string): Promise<PublicUser | null> {
     return this.repository.findOne({
       where: { id },
       select: { id: true, email: true },
@@ -53,6 +53,10 @@ export class UsersRepository {
       .addSelect('user.passwordHash')
       .where('user.email = :email', { email })
       .getOne();
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.repository.delete(id);
   }
 }
 

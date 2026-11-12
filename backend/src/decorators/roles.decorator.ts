@@ -1,6 +1,10 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
+const matchRoles = (roles: string[], userRoles: string) => {
+  return roles.includes(userRoles);
+};
+
 export const Roles = Reflector.createDecorator<string[]>();
 
 @Injectable()

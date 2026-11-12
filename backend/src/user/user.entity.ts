@@ -23,14 +23,14 @@ export class User implements IUser {
   @Column({ type: 'text', unique: true })
   email!: string;
 
-  @Column({ type: 'bool', default: false })
+  @Column({ type: 'boolean', default: false })
   emailVerified!: boolean;
 
   @Column({ type: 'text', select: false })
   passwordHash!: string;
 
   @Column({})
-  roles: Role[];
+  role: string;
 
   @CreateDateColumn()
   createdAt: String;
