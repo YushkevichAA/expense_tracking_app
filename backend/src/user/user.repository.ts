@@ -23,8 +23,8 @@ export class UsersRepository {
       this.repository.create({
         id: randomUUID(),
         email: normalize(email),
-        emailVerified,
-        role: 'customer',
+        // emailVerified,
+        // role: 'customer',
         passwordHash,
       }),
     );
@@ -54,6 +54,28 @@ export class UsersRepository {
       .where('user.email = :email', { email })
       .getOne();
   }
+
+  async updatePasswordHash(
+    id: string,
+    passwordHash: string,
+  ): Promise<PublicUser> {
+    const user = await this.repository.update({ id }, { passwordHash });
+
+    return await this.repository.findOneOrFail({
+      where: { id },
+      select: { id: true, email: true },
+    });
+  }
+  // добавить обновление почты
+  //   async updateEmail(id: string, email: string): Promise<User | null> {
+  //   const row = this.rows.get(id);
+  //   if (!row) {
+  //     return null;
+  //   }
+  //   row.email = normalize(email);
+  //   row.emailVerified = false; // nobody has proven the new address yet
+  //   return toUser(row);
+  // }
 
   async remove(id: string): Promise<void> {
     await this.repository.delete(id);
