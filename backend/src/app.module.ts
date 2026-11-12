@@ -20,10 +20,16 @@ import { AuthModule } from './auth/auth.module.js';
       autoLoadEntities: true,
       synchronize: process.env.MODE === 'development' ? true : false,
     }),
-    UserModule,
+    AuthenticationModule.forRoot({
+      session: {
+        absoluteTtl: '14d',
+        idleTtl: '3d',
+      },
+    }),
     AuthModule,
+    UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
