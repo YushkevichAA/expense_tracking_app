@@ -8,6 +8,7 @@ import { resolve } from 'node:path';
 import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthModule } from './auth/auth.module.js';
 import { OperationModule } from './operation/operation.module.js';
+import { CategoryModule } from './category/category.module.js';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { OperationModule } from './operation/operation.module.js';
     AuthModule,
     UserModule,
     OperationModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
