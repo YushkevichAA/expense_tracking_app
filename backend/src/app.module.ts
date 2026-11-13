@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { resolve } from 'node:path';
 import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthModule } from './auth/auth.module.js';
+import { OperationModule } from './operation/operation.module.js';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from './auth/auth.module.js';
     }),
     AuthModule,
     UserModule,
+    OperationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

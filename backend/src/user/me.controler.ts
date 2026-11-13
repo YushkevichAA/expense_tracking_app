@@ -7,8 +7,6 @@ import { User } from './user.entity.js';
 export class MeController {
   @Get()
   me(@CurrentUser() user: User) {
-    console.log('запрос пользователя');
-    console.log(user);
     return user;
   }
 }

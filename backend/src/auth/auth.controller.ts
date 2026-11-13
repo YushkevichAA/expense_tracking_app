@@ -42,4 +42,14 @@ export class AuthController {
     });
     return { mfaRequired: session.mfa === 'pending' };
   }
+
+  @Post('sign-out')
+  @HttpCode(200)
+  async signOut(@Body() body: SignInDto) {
+    const signedOut = await this.signInService.signOut();
+
+    if (!signedOut) {
+      throw new UnauthorizedException('Сессия не найдена');
+    }
+  }
 }

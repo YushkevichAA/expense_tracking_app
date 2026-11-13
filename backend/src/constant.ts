@@ -1,0 +1,1 @@
+export const OPENING_BALANCE = 'OPENING_BALANCE';
