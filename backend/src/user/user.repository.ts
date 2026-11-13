@@ -23,6 +23,7 @@ export class UsersRepository {
       this.repository.create({
         id: randomUUID(),
         email: normalize(email),
+        username: email,
         // emailVerified,
         // role: 'customer',
         passwordHash,
