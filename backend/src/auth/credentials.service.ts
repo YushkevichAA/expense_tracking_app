@@ -41,4 +41,8 @@ export class CredentialsService {
     }
     return found;
   }
+
+  async delete(user_id: string) {
+    return this.usersRepository.remove(user_id);
+  }
 }

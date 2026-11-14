@@ -9,6 +9,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { IUser } from './user.interface.js';
+import { Operation } from '../operation/entities/operation.entity.js';
 
 export type Role = 'customer' | 'staff' | 'admin';
 

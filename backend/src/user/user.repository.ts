@@ -78,8 +78,8 @@ export class UsersRepository {
   //   return toUser(row);
   // }
 
-  async remove(id: string): Promise<void> {
-    await this.repository.delete(id);
+  async remove(user_id: string): Promise<void> {
+    await this.repository.delete(user_id);
   }
 }
 

@@ -4,7 +4,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { User } from '../../user/user.entity.js';
 
 export type TOperation = 'expenses' | 'income' | 'start_value';
 export interface IOperation {
@@ -20,8 +23,15 @@ export class Operation implements IOperation {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column({ type: 'uuid' })
-  user_id!: string;
+  @Column({ name: 'user_id' })
+  user_id: string;
+
+  // Отношение — для удобной работы в коде
+  @ManyToOne(() => User, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @Column({ type: 'text', unique: true })
   type!: TOperation;

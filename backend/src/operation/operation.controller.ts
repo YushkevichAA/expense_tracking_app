@@ -21,42 +21,47 @@ export class OperationController {
 
   @Post('start_balance')
   create_start_balance(
-    @CurrentUser('id') userId: string,
+    @CurrentUser('id') user_id: string,
     @Body() startOperationDto: StartOperationDto,
   ) {
-    return this.operationService.start(userId, startOperationDto);
+    return this.operationService.start(user_id, startOperationDto);
   }
 
   @Post()
   create(
-    @CurrentUser('id') userId: string,
+    @CurrentUser('id') user_id: string,
     @Body() createOperationDto: CreateOperationDto,
   ) {
-    return this.operationService.create(userId, createOperationDto);
+    return this.operationService.create(user_id, createOperationDto);
   }
 
   @Get()
-  findAll(@CurrentUser('id') userId: string) {
-    return this.operationService.findAll(userId);
+  findAll(@CurrentUser('id') user_id: string) {
+    return this.operationService.findAll(user_id);
   }
 
   @Get(':id')
-  findOne(@CurrentUser('id') userId: string, @Param('id') id: string) {
-    return this.operationService.findOne(userId, id);
+  findOne(@CurrentUser('id') user_id: string, @Param('id') id: string) {
+    return this.operationService.findOne(user_id, id);
   }
 
   @Patch(':id')
   update(
-    @CurrentUser('id') userId: string,
+    @CurrentUser('id') user_id: string,
     @Param('id') id: string,
     @Body() updateOperationDto: UpdateOperationDto,
   ) {
     console.log(updateOperationDto);
-    return this.operationService.update(userId, id, updateOperationDto);
+    return this.operationService.update(user_id, id, updateOperationDto);
   }
 
   @Delete(':id')
-  remove(@CurrentUser('id') userId: string, @Param('id') id: string) {
-    return this.operationService.remove(userId, id);
+  remove(@CurrentUser('id') user_id: string, @Param('id') id: string) {
+    return this.operationService.remove(user_id, id);
+  }
+
+  @Delete()
+  reset_all(@CurrentUser('id') user_id: string) {
+    return this.operationService.reset_all(user_id);
   }
 }

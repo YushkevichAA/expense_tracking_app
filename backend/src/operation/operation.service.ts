@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateOperationDto } from './dto/create-operation.dto.js';
 import { UpdateOperationDto } from './dto/update-operation.dto.js';
 import { StartOperationDto } from './dto/start-operation.dto.js';
@@ -17,13 +21,20 @@ export class OperationService {
   ) {}
 
   async start(
-    userId: string,
+    user_id: string,
     { amount }: StartOperationDto,
   ): Promise<Operation> {
+    const existOperation = await this.repository.findOne({
+      where: { user_id, type: 'start_value' },
+    });
+    if (existOperation) {
+      throw new ConflictException('start value already exist');
+    }
+
     const operation = await this.repository.save(
       this.repository.create({
         id: randomUUID(),
-        user_id: userId,
+        user_id: user_id,
         type: 'start_value',
         amount: amount,
         comment: 'Начальная сумма',
@@ -37,13 +48,19 @@ export class OperationService {
     user_id: string,
     { type, amount, comment }: CreateOperationDto,
   ): Promise<Operation> {
+    const existOperation = await this.repository.findOne({
+      where: { user_id, type: 'start_value' },
+    });
+    if (!existOperation) {
+      throw new NotFoundException('start value not exist');
+    }
     const operation = await this.repository.save(
       this.repository.create({
         id: randomUUID(),
         user_id,
-        type: 'start_value',
+        type: type,
         amount: amount,
-        comment: 'Начальная сумма',
+        comment: comment ?? null,
       }),
     );
     return operation;
@@ -83,16 +100,24 @@ export class OperationService {
     id: string,
     updateOperationDto: UpdateOperationDto,
   ) {
-    const operation = await this.repository.findOneOrFail({
+    const result = await this.repository.update(
+      { user_id, id },
+      updateOperationDto,
+    );
+    if (result.affected === 0) {
+      throw new NotFoundException('Post not found');
+    }
+
+    return await this.repository.findOneOrFail({
       where: { user_id, id },
     });
-
-    return await this.repository.save(
-      Object.assign({ ...operation, updateOperationDto }),
-    );
   }
 
   async remove(user_id: string, id: string) {
     return await this.repository.delete({ user_id, id });
+  }
+
+  async reset_all(user_id: string) {
+    return await this.repository.delete({ user_id });
   }
 }

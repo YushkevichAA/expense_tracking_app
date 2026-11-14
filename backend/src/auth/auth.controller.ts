@@ -1,15 +1,21 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
   Post,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
-import { Public, SignInService } from '@nestjs/authentication';
+import {
+  AuthenticationGuard,
+  CurrentUser,
+  Public,
+  SignInService,
+} from '@nestjs/authentication';
 import { CredentialsService } from './credentials.service.js';
 import { SignInDto, SignUpDto } from './dto/auth.dto.js';
 
-@Public()
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -18,6 +24,7 @@ export class AuthController {
   ) {}
 
   @Post('sign-up')
+  @Public()
   async signUp(@Body() body: SignUpDto) {
     const user = await this.credentialsService.register(
       body.email,
@@ -28,6 +35,7 @@ export class AuthController {
   }
 
   @Post('sign-in')
+  @Public()
   @HttpCode(200)
   async signIn(@Body() body: SignInDto) {
     const user = await this.credentialsService.verify(
@@ -44,6 +52,7 @@ export class AuthController {
   }
 
   @Post('sign-out')
+  @Public()
   @HttpCode(200)
   async signOut(@Body() body: SignInDto) {
     const signedOut = await this.signInService.signOut();
@@ -51,5 +60,13 @@ export class AuthController {
     if (!signedOut) {
       throw new UnauthorizedException('Сессия не найдена');
     }
+  }
+
+  @Delete('delete')
+  @UseGuards(AuthenticationGuard)
+  @HttpCode(204)
+  async delete(@CurrentUser('id') user_id: string) {
+    await this.signInService.signOut();
+    return await this.credentialsService.delete(user_id);
   }
 }
