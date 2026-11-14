@@ -29,7 +29,7 @@ export class Operation implements IOperation {
   @Column()
   amount!: number;
 
-  @Column()
+  @Column({ nullable: true })
   comment: string;
 
   @CreateDateColumn()

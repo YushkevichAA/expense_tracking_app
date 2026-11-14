@@ -51,6 +51,7 @@ export class OperationController {
     @Param('id') id: string,
     @Body() updateOperationDto: UpdateOperationDto,
   ) {
+    console.log(updateOperationDto);
     return this.operationService.update(userId, id, updateOperationDto);
   }
 

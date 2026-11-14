@@ -6,6 +6,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Operation } from './entities/operation.entity.js';
 import { Repository } from 'typeorm';
 import { randomUUID } from 'node:crypto';
+import { plainToClass } from 'class-transformer';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class OperationService {
@@ -30,32 +32,67 @@ export class OperationService {
 
     return operation;
   }
-  async create(userId: string, { type, amount, comment }: CreateOperationDto) {
-    return 'This action adds a new operation';
+
+  async create(
+    user_id: string,
+    { type, amount, comment }: CreateOperationDto,
+  ): Promise<Operation> {
+    const operation = await this.repository.save(
+      this.repository.create({
+        id: randomUUID(),
+        user_id,
+        type: 'start_value',
+        amount: amount,
+        comment: 'Начальная сумма',
+      }),
+    );
+    return operation;
   }
 
-  findAll(userId: string) {
-    return `This action returns all operation`;
+  async findAll(user_id: string): Promise<Operation[]> {
+    const operators = await this.repository.find({
+      where: { user_id },
+      select: {
+        id: true,
+        type: true,
+        amount: true,
+        comment: true,
+        createdAt: true,
+        updtedAt: true,
+      },
+    });
+    return operators;
   }
 
-  findOne(userId: string, id: string) {
-    return `This action returns a #${id} operation`;
+  async findOne(user_id: string, id: string): Promise<Operation> {
+    const operator = await this.repository.findOneOrFail({
+      where: { user_id, id },
+      select: {
+        type: true,
+        amount: true,
+        comment: true,
+        createdAt: true,
+        updtedAt: true,
+      },
+    });
+    return operator;
   }
 
-  update(userId: string, id: string, updateOperationDto: UpdateOperationDto) {
-    //   const result = await this.operationsRepository
-    // .createQueryBuilder()
-    // .update(Operation)
-    // .set(dto)
-    // .where('id = :operationId AND user_id = :userId', {
-    //   operationId,
-    //   userId,
-    // })
-    // .execute();
-    return `This action updates a #${id} operation`;
+  async update(
+    user_id: string,
+    id: string,
+    updateOperationDto: UpdateOperationDto,
+  ) {
+    const operation = await this.repository.findOneOrFail({
+      where: { user_id, id },
+    });
+
+    return await this.repository.save(
+      Object.assign({ ...operation, updateOperationDto }),
+    );
   }
 
-  remove(userId: string, id: string) {
-    return `This action removes a #${id} operation`;
+  async remove(user_id: string, id: string) {
+    return await this.repository.delete({ user_id, id });
   }
 }
