@@ -66,7 +66,6 @@ export function SignUpForm() {
 
     setLoading(true);
     try {
-      debugger;
       // Здесь ваш запрос к API
       const response = await signUp(form);
       if (response) {
