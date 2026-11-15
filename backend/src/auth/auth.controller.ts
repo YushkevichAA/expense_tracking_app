@@ -38,7 +38,9 @@ export class AuthController {
       body.email,
       body.password,
     );
-    await this.signInService.signIn(user.id, { method: 'password' });
+    await this.signInService.signIn(user.id, {
+      method: 'password',
+    });
     return user;
   }
 

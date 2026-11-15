@@ -3,6 +3,7 @@ import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // app.setGlobalPrefix('api');
   app.enableCors({
     origin: ['http://localhost:5173', 'http://localhost:5173/'], // Разрешаем запросы только с этого локального домена
     methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
