@@ -1,15 +1,17 @@
 import { Typography } from "@mui/material";
-import React from "react";
+
+import { useLoaderData } from "react-router";
+import { LogoutButton } from "../widgets/Logout";
 
 export const MainPage = () => {
+  const loadedUser = useLoaderData();
+  console.log(loadedUser);
   return (
     <div>
       <div>
-        <Typography component="a" href="/auth/sign-up" color="primary">
-          Выйти из системы
-        </Typography>
+        <LogoutButton />
       </div>
-      Это главная страница,авторизованного пользователя
+      Добро пожаловать {loadedUser.username}
     </div>
   );
 };

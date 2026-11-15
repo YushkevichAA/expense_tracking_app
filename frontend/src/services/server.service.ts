@@ -18,3 +18,8 @@ export async function signUp(data: {
 export async function signIn(data: { email: string; password: string }) {
   return await apiClient.post("/user", data);
 }
+
+// выход
+export async function signOutService() {
+  return await apiClient.post("/auth/sign-out");
+}

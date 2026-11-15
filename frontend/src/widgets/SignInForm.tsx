@@ -14,7 +14,8 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { signIn } from "../services/server.service";
 
 type FormData = {
   email: string;
@@ -29,6 +30,7 @@ export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validate = (): FormErrors => {
     const errs: FormErrors = {};
@@ -65,6 +67,10 @@ export function SignInForm() {
     setLoading(true);
     try {
       // Здесь ваш запрос к API
+      const response = await signIn(form);
+      if (response) {
+        navigate("/");
+      }
       // создать запрос к серверу, если запрос успешен сохраняем куки и перенаправляем пользователя на его страницу
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Ошибка сети");
