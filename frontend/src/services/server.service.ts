@@ -7,10 +7,10 @@ export async function checkAuthBackend() {
 
 // регистрация
 export async function signUp(data: { email: string; password: string }) {
-  return await apiClient.post("/users", data);
+  return await apiClient.post("/auth/sign-up", data);
 }
 
 // авторизация
 export async function signIn(data: { email: string; password: string }) {
-  return await apiClient.post("/users", data);
+  return await apiClient.post("/user", data);
 }
