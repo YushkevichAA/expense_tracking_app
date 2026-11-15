@@ -6,7 +6,11 @@ export async function checkAuthBackend() {
 }
 
 // регистрация
-export async function signUp(data: { email: string; password: string }) {
+export async function signUp(data: {
+  email: string;
+  username: string;
+  password: string;
+}) {
   return await apiClient.post("/auth/sign-up", data);
 }
 

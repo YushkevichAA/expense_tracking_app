@@ -9,12 +9,16 @@ export class CredentialsService {
     private readonly passwordHasher: PasswordHasher,
   ) {}
 
-  async register(email: string, password: string): Promise<PublicUser> {
+  async register(
+    email: string,
+    username: string,
+    password: string,
+  ): Promise<PublicUser> {
     if (await this.usersRepository.findByEmail(email)) {
       throw new ConflictException('Email already registered');
     }
     // The address is unverified: anyone can type any email into a sign-up form.
-    return this.usersRepository.create(email, {
+    return this.usersRepository.create(email, username, {
       passwordHash: await this.passwordHasher.hash(password),
     });
   }

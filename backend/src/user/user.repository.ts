@@ -4,7 +4,7 @@ import { User } from './user.entity.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-export type PublicUser = Pick<User, 'id' | 'email'>;
+export type PublicUser = Pick<User, 'id' | 'username' | 'email'>;
 
 @Injectable()
 export class UsersRepository {
@@ -14,6 +14,7 @@ export class UsersRepository {
 
   async create(
     email: string,
+    username: string,
     {
       passwordHash,
       emailVerified = false,
@@ -23,27 +24,27 @@ export class UsersRepository {
       this.repository.create({
         id: randomUUID(),
         email: normalize(email),
-        username: email,
+        username: username,
         // emailVerified,
         // role: 'customer',
         passwordHash,
       }),
     );
 
-    return { id: user.id, email: user.email };
+    return { id: user.id, username: user.username, email: user.email };
   }
 
   async findById(id: string): Promise<PublicUser | null> {
     return this.repository.findOne({
       where: { id },
-      select: { id: true, email: true },
+      select: { id: true, username: true, email: true },
     });
   }
 
   async findByEmail(email: string): Promise<PublicUser | null> {
     return this.repository.findOne({
       where: { email },
-      select: { id: true, email: true },
+      select: { id: true, username: true, email: true },
     });
   }
 
@@ -64,7 +65,7 @@ export class UsersRepository {
 
     return await this.repository.findOneOrFail({
       where: { id },
-      select: { id: true, email: true },
+      select: { id: true, username: true, email: true },
     });
   }
   // добавить обновление почты

@@ -18,6 +18,7 @@ import { Link, useNavigate } from "react-router";
 import { signUp } from "../services/server.service";
 
 type FormData = {
+  username: string;
   email: string;
   password: string;
 };
@@ -25,7 +26,11 @@ type FormData = {
 type FormErrors = Partial<Record<keyof FormData, string>>;
 
 export function SignUpForm() {
-  const [form, setForm] = useState<FormData>({ email: "", password: "" });
+  const [form, setForm] = useState<FormData>({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [errors, setErrors] = useState<FormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -34,6 +39,11 @@ export function SignUpForm() {
 
   const validate = (): FormErrors => {
     const errs: FormErrors = {};
+    if (!form.username) {
+      errs.username = "Введите имя";
+    } else if (form.username.length < 2) {
+      errs.username = "Слишком короткое имя";
+    }
     if (!form.email) {
       errs.email = "Введите email";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
@@ -50,7 +60,6 @@ export function SignUpForm() {
   const handleChange =
     (field: keyof FormData) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setForm((prev) => ({ ...prev, [field]: event.target.value }));
-      // Сбрасываем ошибку поля при вводе
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     };
 
@@ -116,7 +125,7 @@ export function SignUpForm() {
               <LockOutlinedIcon sx={{ color: "primary.contrastText" }} />
             </Box>
             <Typography component="h1" variant="h5">
-              Вход
+              Регистрация
             </Typography>
           </Box>
 
@@ -127,6 +136,18 @@ export function SignUpForm() {
           )}
 
           <Box component="form" onSubmit={handleSubmit} noValidate>
+            <TextField
+              fullWidth
+              label="Имя"
+              type="username"
+              value={form.username}
+              onChange={handleChange("username")}
+              error={!!errors.username}
+              helperText={errors.username}
+              autoComplete="username"
+              margin="normal"
+              disabled={loading}
+            />
             <TextField
               fullWidth
               label="Email"
@@ -184,6 +205,7 @@ export function SignUpForm() {
           </Box>
 
           <Typography variant="body2" align="center">
+            У вас есть аккаунт?
             <Link to="/auth/sign-in">Авторизуйтесь</Link>
           </Typography>
         </CardContent>

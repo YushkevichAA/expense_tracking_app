@@ -5,6 +5,10 @@ export class SignUpDto {
   email: string;
 
   @IsString()
+  @MinLength(2)
+  username: string;
+
+  @IsString()
   @MinLength(12)
   @MaxLength(128)
   password: string;

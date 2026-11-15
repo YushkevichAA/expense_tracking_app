@@ -36,6 +36,7 @@ export class AuthController {
   async signUp(@Body() body: SignUpDto) {
     const user = await this.credentialsService.register(
       body.email,
+      body.username,
       body.password,
     );
     await this.signInService.signIn(user.id, {
