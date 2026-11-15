@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   Post,
   UnauthorizedException,
@@ -15,6 +16,7 @@ import {
 } from '@nestjs/authentication';
 import { CredentialsService } from './credentials.service.js';
 import { SignInDto, SignUpDto } from './dto/auth.dto.js';
+import { type PublicUser } from '../user/user.repository.js';
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +24,12 @@ export class AuthController {
     private readonly credentialsService: CredentialsService,
     private readonly signInService: SignInService,
   ) {}
+
+  @Get('check')
+  @UseGuards(AuthenticationGuard)
+  async checkAuth(@CurrentUser() user: PublicUser) {
+    return user;
+  }
 
   @Post('sign-up')
   @Public()
