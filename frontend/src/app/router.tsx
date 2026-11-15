@@ -2,16 +2,16 @@ import { createBrowserRouter } from "react-router";
 import { AuthPage } from "../pages/AuthPage";
 import { SignInForm } from "../widgets/SignInForm";
 import { SignUpForm } from "../widgets/SignUpForm";
-import { checkAuthBackend, signOutService } from "../services/server.service";
+import { checkAuthService } from "../services/server.service";
 import { redirect } from "react-router";
 import { MainPage } from "../pages/MainPage";
 
 const checkAuth = async () => {
   try {
-    const request = await checkAuthBackend();
-    // перенести данные в глобальное хранилище пользователя
-    return request.data;
+    const request = await checkAuthService();
+
     // закинуть данные пользователя в глобальное хранилище после получения данных
+    return request.data;
   } catch (e) {
     // если нет то переотправляем пользователя на страницу регистрации
     console.log(e);

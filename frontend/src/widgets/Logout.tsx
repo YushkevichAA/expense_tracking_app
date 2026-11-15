@@ -8,10 +8,9 @@ export const LogoutButton = () => {
   const handleClick = async () => {
     try {
       const request = await signOutService();
-      debugger;
-      console.log(request);
-      // перенести данные в глобальное хранилище пользовател
-
+      if (!request) {
+        return console.log("ошибка запроса");
+      }
       navigate("/auth/sign-in");
     } catch (e) {
       console.log(e);

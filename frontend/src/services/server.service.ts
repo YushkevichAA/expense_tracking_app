@@ -1,12 +1,12 @@
 import apiClient from "./httpClient.service";
 
 // получение информации по авторизованному пользователю
-export async function checkAuthBackend() {
+export async function checkAuthService() {
   return await apiClient.get("/auth/check");
 }
 
 // регистрация
-export async function signUp(data: {
+export async function signUpService(data: {
   email: string;
   username: string;
   password: string;
@@ -15,8 +15,8 @@ export async function signUp(data: {
 }
 
 // авторизация
-export async function signIn(data: { email: string; password: string }) {
-  return await apiClient.post("/user", data);
+export async function signInService(data: { email: string; password: string }) {
+  return await apiClient.post("/auth/sign-in", data);
 }
 
 // выход

@@ -15,7 +15,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link, useNavigate } from "react-router";
-import { signUp } from "../services/server.service";
+import { signUpService } from "../services/server.service";
 
 type FormData = {
   username: string;
@@ -76,7 +76,7 @@ export function SignUpForm() {
     setLoading(true);
     try {
       // Здесь ваш запрос к API
-      const response = await signUp(form);
+      const response = await signUpService(form);
       if (response) {
         navigate("/");
       }

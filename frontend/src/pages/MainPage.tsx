@@ -1,5 +1,3 @@
-import { Typography } from "@mui/material";
-
 import { useLoaderData } from "react-router";
 import { LogoutButton } from "../widgets/Logout";
 
