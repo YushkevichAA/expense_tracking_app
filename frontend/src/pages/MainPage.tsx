@@ -12,20 +12,37 @@ import {
   Typography,
 } from "@mui/material";
 
-import {
-  DashboardOutlined,
-  ReceiptLongOutlined,
-  SchoolOutlined,
-  LogoutOutlined,
-} from "@mui/icons-material";
-import { useLoaderData, useNavigate } from "react-router";
-import { NavItem } from "../shared/components";
+import { LogoutOutlined } from "@mui/icons-material";
+import { useLoaderData, useMatches, useNavigate } from "react-router";
+import { SideBar } from "../shared/components";
 import { Outlet } from "react-router";
 import { signOutService } from "../services/server.service";
+import { useEffect } from "react";
 
 export function MainPage() {
   const loadedUser = useLoaderData();
   const navigate = useNavigate();
+  const matches = useMatches();
+
+  const title =
+    [...matches]
+      .reverse()
+      .map((match) => (match.handle as { title: string } | undefined)?.title)
+      .find((value) => value !== undefined) ?? "ФинПлан";
+
+  // const currentPage = navigationList.find((item) =>
+  //   matchPath(
+  //     {
+  //       path: item.path,
+  //       end: item.path === "/",
+  //     },
+  //     pathname,
+  //   ),
+  // );
+
+  useEffect(() => {
+    document.title = `${title} — ФинПлан`;
+  }, [title]);
 
   const handleLogout = async () => {
     try {
@@ -60,14 +77,7 @@ export function MainPage() {
             ФинПлан
           </Typography>
         </Box>
-
-        <NavItem icon={<DashboardOutlined fontSize="small" />}>Обзор</NavItem>
-        <NavItem icon={<ReceiptLongOutlined fontSize="small" />}>
-          Операции
-        </NavItem>
-        <NavItem icon={<SchoolOutlined fontSize="small" />} selected>
-          Платежи за обучение
-        </NavItem>
+        <SideBar />
 
         <Divider sx={{ my: 2, mx: 0.75 }} />
       </Drawer>
@@ -79,11 +89,7 @@ export function MainPage() {
           sx={{ borderBottom: "1px solid #f3f4f6" }}
         >
           <Toolbar sx={{ minHeight: "54px !important", px: "26px !important" }}>
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography sx={{ fontWeight: 700, fontSize: 16 }}>
-                Платежи за обучение
-              </Typography>
-            </Box>
+            <Box sx={{ flexGrow: 1 }}></Box>
             <Avatar
               sx={{
                 width: 27,

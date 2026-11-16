@@ -5,6 +5,9 @@ import { SignUpForm } from "../widgets/SignUpForm";
 import { checkAuthService } from "../services/server.service";
 import { redirect } from "react-router";
 import { MainPage } from "../pages/MainPage";
+import { TuitionPaymentsPage } from "../pages/TuitionPaymentsPage";
+import { OverviewPage } from "../pages/OverviewPage";
+import { OperationsPage } from "../pages/OperationPage";
 // import MenuAppBar from "../pages/MainPage";
 // import { TuitionPaymentsPage } from "../pages/TuitionPaymentsPage";
 
@@ -42,6 +45,23 @@ export const router = createBrowserRouter(
       // на этапе  открытия приложения должно быть сделана проверка что пользователь все еще в системе или сделать редирект на страницу авторизации
       Component: MainPage,
       loader: checkAuth,
+      children: [
+        {
+          index: true,
+          Component: OverviewPage,
+          handle: { title: "Обзор" },
+        },
+        {
+          path: "operations",
+          Component: OperationsPage,
+          handle: { title: "Операции" },
+        },
+        {
+          path: "tuition",
+          Component: TuitionPaymentsPage,
+          handle: { title: "Платежи за обучение" },
+        },
+      ],
     },
   ],
   { basename: "/" },
