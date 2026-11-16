@@ -30,15 +30,8 @@ import {
   ReceiptLongOutlined,
 } from "@mui/icons-material";
 import { formatDate, formatMoney } from "../shared";
-
-interface IOperation {
-  id: string;
-  date: string;
-  type: "expense" | "income";
-  category: string;
-  comment: string;
-  amount: number;
-}
+import type { IOperation } from "../shared/types";
+import { AddButton } from "../shared/components";
 
 const initialOperations: IOperation[] = [
   {
@@ -390,15 +383,7 @@ export function OperationsPage() {
                 <Typography sx={{ color: "text.secondary", fontSize: 10 }}>
                   Добавьте первую операцию, чтобы начать вести бюджет
                 </Typography>
-                <Button
-                  variant="contained"
-                  startIcon={<AddRounded />}
-                  onClick={openAddDialog}
-                  size="small"
-                  sx={{ mt: 0.5, fontSize: 10 }}
-                >
-                  Добавить операцию
-                </Button>
+                <AddButton handleClick={openAddDialog} />
               </Stack>
             )}
           </Box>

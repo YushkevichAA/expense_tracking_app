@@ -26,6 +26,9 @@ import {
   CloseRounded,
 } from "@mui/icons-material";
 import { formatMoney } from "../shared";
+import { AddButton } from "../shared/components";
+import { SummaryCard } from "../shared/components/SummaryCard";
+import { useUser } from "../store";
 
 const initialTransactions = [
   {
@@ -71,49 +74,8 @@ const chartData = [
   { day: "30", income: 91, expense: 58 },
 ];
 
-function SummaryCard({
-  title,
-  value,
-  subtitle,
-  color,
-  children,
-}: {
-  title: string;
-  value: string;
-  subtitle?: string;
-  color: string;
-  children?: React.ReactNode;
-}) {
-  return (
-    <Box
-      sx={{
-        minHeight: 94,
-        bgcolor: "background.paper",
-        borderLeft: `4px solid ${color}`,
-        borderRadius: 1,
-        p: 1.75,
-      }}
-    >
-      <Typography sx={{ color: "text.secondary", fontSize: 10 }}>
-        {title}
-      </Typography>
-
-      <Typography sx={{ fontSize: 21, fontWeight: 700, mt: 0.4 }}>
-        {value}
-      </Typography>
-
-      {subtitle && (
-        <Typography sx={{ color: "text.secondary", fontSize: 9, mt: 0.5 }}>
-          {subtitle}
-        </Typography>
-      )}
-
-      {children}
-    </Box>
-  );
-}
-
 export function OverviewPage() {
+  const currentUser = useUser();
   const [transactions, setTransactions] = useState(initialTransactions);
   const [summary, setSummary] = useState({
     income: 68500,
@@ -178,20 +140,13 @@ export function OverviewPage() {
             >
               <Box>
                 <Typography sx={{ fontSize: 20, fontWeight: 700 }}>
-                  Добрый день, Анна
+                  Добрый день, {currentUser?.username || "пользователь"}
                 </Typography>
                 <Typography sx={{ color: "text.secondary", fontSize: 10 }}>
                   Контролируйте бюджет спокойно и без лишних сложностей
                 </Typography>
               </Box>
-
-              <Button
-                variant="contained"
-                onClick={() => setDialogOpen(true)}
-                sx={{ fontSize: 11 }}
-              >
-                Добавить операцию
-              </Button>
+              <AddButton handleClick={() => setDialogOpen(true)} />
             </Stack>
 
             <Box

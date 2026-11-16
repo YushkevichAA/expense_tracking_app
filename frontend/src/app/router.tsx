@@ -8,15 +8,13 @@ import { MainPage } from "../pages/MainPage";
 import { TuitionPaymentsPage } from "../pages/TuitionPaymentsPage";
 import { OverviewPage } from "../pages/OverviewPage";
 import { OperationsPage } from "../pages/OperationPage";
-// import MenuAppBar from "../pages/MainPage";
-// import { TuitionPaymentsPage } from "../pages/TuitionPaymentsPage";
 
 const checkAuth = async () => {
   try {
-    const request = await checkAuthService();
+    const { data: userData } = await checkAuthService();
 
     // закинуть данные пользователя в глобальное хранилище после получения данных
-    return request.data;
+    return userData;
   } catch (e) {
     // если нет то переотправляем пользователя на страницу регистрации
     console.log(e);
