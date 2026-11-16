@@ -5,6 +5,8 @@ import { SignUpForm } from "../widgets/SignUpForm";
 import { checkAuthService } from "../services/server.service";
 import { redirect } from "react-router";
 import { MainPage } from "../pages/MainPage";
+// import MenuAppBar from "../pages/MainPage";
+// import { TuitionPaymentsPage } from "../pages/TuitionPaymentsPage";
 
 const checkAuth = async () => {
   try {
