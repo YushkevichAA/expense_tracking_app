@@ -1,7 +1,9 @@
+export type TOperation = "expense" | "income";
+
 export interface IOperation {
   id: string;
   date: string;
-  type: "expense" | "income";
+  type: TOperation;
   category: string;
   comment: string;
   amount: number;

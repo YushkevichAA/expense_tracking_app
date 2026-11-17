@@ -1,8 +1,6 @@
 import { create } from "zustand";
 import type { IOperation } from "../shared/types";
 
-export type TThemeName = "gpnDefault" | "gpnDark";
-
 interface IStoreState {
   operations: IOperation[];
 }

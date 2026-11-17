@@ -46,7 +46,8 @@ export const router = createBrowserRouter(
       children: [
         {
           index: true,
-          Component: OverviewPage,
+          // Component: OverviewPage,e
+          loader: () => redirect("/operations"),
           handle: { title: "Обзор" },
         },
         {

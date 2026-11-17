@@ -3,10 +3,6 @@ import {
   Box,
   Button,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   FormControl,
   IconButton,
   InputLabel,
@@ -20,7 +16,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from "@mui/material";
 
@@ -29,42 +24,17 @@ import {
   MoreHorizRounded,
   ReceiptLongOutlined,
 } from "@mui/icons-material";
-import { formatDate, formatMoney } from "../shared";
+import { formatDateFromString, formatMoney } from "../shared";
 import type { IOperation } from "../shared/types";
 import { AddButton } from "../shared/components";
-
-const initialOperations: IOperation[] = [
-  {
-    id: "1",
-    date: "2026-11-12",
-    type: "expense",
-    category: "Питание",
-    comment: "Кофе и перекус",
-    amount: 320,
-  },
-  {
-    id: "2",
-    date: "2026-11-10",
-    type: "income",
-    category: "Стипендия",
-    comment: "За ноябрь",
-    amount: 18000,
-  },
-  {
-    id: "3",
-    date: "2026-11-08",
-    type: "expense",
-    category: "Транспорт",
-    comment: "Проездной",
-    amount: 2450,
-  },
-];
-
-const expenseCategories = ["Питание", "Транспорт", "Учёба", "Жильё", "Другое"];
-const incomeCategories = ["Стипендия", "Подработка", "Подарок", "Другое"];
+import { useOperations, useOperationsActions } from "../store";
+import { deleteTransaction } from "../services/server.service";
+import { AddOperation } from "../widgets/AddOperation";
+import { UpdateOperation } from "../widgets/UpdateOperation";
 
 export function OperationsPage() {
-  const [operations, setOperations] = useState(initialOperations);
+  const operations = useOperations();
+  const { deleteOperation } = useOperationsActions();
 
   const [period, setPeriod] = useState("2026-11");
   const [typeFilter, setTypeFilter] = useState("all");
@@ -77,14 +47,6 @@ export function OperationsPage() {
 
   const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
   const [menuOperation, setMenuOperation] = useState<IOperation | null>(null);
-
-  const [form, setForm] = useState({
-    date: "2026-11-16",
-    type: "expense",
-    category: "",
-    comment: "",
-    amount: "",
-  });
 
   const filteredOperations = useMemo(
     () =>
@@ -101,73 +63,26 @@ export function OperationsPage() {
     [operations, period, typeFilter, categoryFilter],
   );
 
-  const categories =
-    form.type === "income" ? incomeCategories : expenseCategories;
-
   const openAddDialog = () => {
     setEditingOperation(null);
-    setForm({
-      date: "2026-11-16",
-      type: "expense",
-      category: "",
-      comment: "",
-      amount: "",
-    });
     setDialogOpen(true);
   };
 
-  const openEditDialog = (operation: IOperation | null) => {
-    if (!operation) return;
-    setEditingOperation(operation);
-    setForm({
-      date: operation.date,
-      type: operation.type,
-      category: operation.category,
-      comment: operation.comment,
-      amount: String(operation.amount),
-    });
+  const openEditDialog = () => {
+    if (!menuOperation) return;
+    setEditingOperation(menuOperation);
     setMenuAnchor(null);
-    setDialogOpen(true);
   };
 
-  const saveOperation = () => {
-    const amount = Number(form.amount);
-    if (!amount || amount <= 0 || !form.category || !form.date) return;
-    // прикрутить сюда сохранение операции на сервере
-
-    // const operationData = {
-    //   date: form.date,
-    //   type: form.type,
-    //   category: form.category,
-    //   comment: form.comment.trim() || "Без комментария",
-    //   amount,
-    // };
-
-    // if (editingOperation) {
-    //   setOperations((current) =>
-    //     current.map((operation) =>
-    //       operation.id === editingOperation.id
-    //         ? { ...operation, ...operationData }
-    //         : operation,
-    //     ),
-    //   );
-    // } else {
-    //   setOperations((current) => [
-    //     { id: Date.now(), ...operationData },
-    //     ...current,
-    //   ]);
-    // }
-
-    setDialogOpen(false);
-  };
-
-  const deleteOperation = () => {
+  const handleDeleteOperation = async () => {
     if (!menuOperation) return;
 
-    setOperations((current) =>
-      current.filter((operation) => operation.id !== menuOperation.id),
-    );
+    const response = await deleteTransaction(menuOperation.id);
 
+    if (response.status > 300) {
+      return;
+    }
+    deleteOperation(menuOperation.id);
     setMenuAnchor(null);
     setMenuOperation(null);
   };
@@ -195,7 +110,9 @@ export function OperationsPage() {
                 <Typography sx={{ fontSize: 20, fontWeight: 700 }}>
                   Операции
                 </Typography>
-                <Typography sx={{ color: "text.secondary", fontSize: 10 }}>
+                <Typography
+                  sx={{ color: "text.secondary", fontSize: 10, mb: 1 }}
+                >
                   Ручной учёт доходов и расходов
                 </Typography>
               </Box>
@@ -305,7 +222,7 @@ export function OperationsPage() {
                     return (
                       <TableRow key={operation.id} hover>
                         <TableCell sx={{ fontSize: 10, whiteSpace: "nowrap" }}>
-                          {formatDate(operation.date)}
+                          {formatDateFromString(operation.date)}
                         </TableCell>
 
                         <TableCell>
@@ -395,107 +312,27 @@ export function OperationsPage() {
         open={Boolean(menuAnchor)}
         onClose={() => setMenuAnchor(null)}
       >
-        <MenuItem onClick={() => openEditDialog(menuOperation)}>
-          Изменить
-        </MenuItem>
-        <MenuItem onClick={deleteOperation} sx={{ color: "error.main" }}>
+        <MenuItem onClick={openEditDialog}>Изменить</MenuItem>
+        <MenuItem onClick={handleDeleteOperation} sx={{ color: "error.main" }}>
           Удалить
         </MenuItem>
       </Menu>
 
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        fullWidth
-        maxWidth="xs"
-      >
-        <DialogTitle>
-          {editingOperation ? "Изменить операцию" : "Добавить операцию"}
-        </DialogTitle>
+      <AddOperation
+        openModal={dialogOpen}
+        handleClose={() => setDialogOpen(false)}
+      />
 
-        <DialogContent>
-          <Stack spacing={2} sx={{ pt: 1 }}>
-            <FormControl fullWidth>
-              <InputLabel>Тип операции</InputLabel>
-              <Select
-                value={form.type}
-                label="Тип операции"
-                onChange={(event) =>
-                  setForm({
-                    ...form,
-                    type: event.target.value,
-                    category: "",
-                  })
-                }
-              >
-                <MenuItem value="expense">Расход</MenuItem>
-                <MenuItem value="income">Доход</MenuItem>
-              </Select>
-            </FormControl>
-
-            <TextField
-              label="Сумма, ₽"
-              type="number"
-              value={form.amount}
-              onChange={(event) =>
-                setForm({ ...form, amount: event.target.value })
-              }
-              slotProps={{
-                htmlInput: {
-                  min: 1,
-                },
-              }}
-              fullWidth
-            />
-
-            <TextField
-              label="Дата"
-              type="date"
-              value={form.date}
-              onChange={(event) =>
-                setForm({ ...form, date: event.target.value })
-              }
-              slotProps={{
-                inputLabel: { shrink: true },
-              }}
-              fullWidth
-            />
-
-            <FormControl fullWidth>
-              <InputLabel>Категория</InputLabel>
-              <Select
-                value={form.category}
-                label="Категория"
-                onChange={(event) =>
-                  setForm({ ...form, category: event.target.value })
-                }
-              >
-                {categories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <TextField
-              label="Комментарий"
-              value={form.comment}
-              onChange={(event) =>
-                setForm({ ...form, comment: event.target.value })
-              }
-              fullWidth
-            />
-          </Stack>
-        </DialogContent>
-
-        <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setDialogOpen(false)}>Отмена</Button>
-          <Button variant="contained" onClick={saveOperation}>
-            Сохранить
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <AddOperation
+        openModal={dialogOpen}
+        handleClose={() => setDialogOpen(false)}
+      />
+      {!!editingOperation && (
+        <UpdateOperation
+          operation={editingOperation}
+          handleClose={() => setEditingOperation(null)}
+        />
+      )}
     </>
   );
 }

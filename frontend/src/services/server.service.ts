@@ -1,3 +1,4 @@
+import type { AxiosResponse } from "axios";
 import type { IOperation } from "../shared/types";
 import apiClient from "./httpClient.service";
 
@@ -36,12 +37,14 @@ export async function getTransactionById(id: string) {
 }
 
 // получение одной операции
-export async function setTransaction(operation: IOperation) {
+export async function setTransaction(operation: Omit<IOperation, "id">) {
   return await apiClient.post(`/operation`, operation);
 }
 
 // обновление одной операции
-export async function patchTransaction(operation: IOperation) {
+export async function patchTransactionService(
+  operation: IOperation,
+): Promise<AxiosResponse<IOperation>> {
   const { id, ...data } = operation;
   return await apiClient.patch(`/operation/${id}`, data);
 }

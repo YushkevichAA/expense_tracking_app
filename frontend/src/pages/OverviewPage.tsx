@@ -1,21 +1,12 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Alert,
   Box,
   Button,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Divider,
-  FormControl,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 
@@ -26,44 +17,8 @@ import {
   CloseRounded,
 } from "@mui/icons-material";
 import { formatMoney } from "../shared";
-import { AddButton } from "../shared/components";
 import { SummaryCard } from "../shared/components/SummaryCard";
-import { useUser } from "../store";
-
-const initialTransactions = [
-  {
-    id: 1,
-    date: "12 ноя",
-    type: "expense",
-    category: "Питание",
-    comment: "Кофе и перекус",
-    amount: 320,
-  },
-  {
-    id: 2,
-    date: "10 ноя",
-    type: "income",
-    category: "Стипендия",
-    comment: "За ноябрь",
-    amount: 18000,
-  },
-  {
-    id: 3,
-    date: "08 ноя",
-    type: "expense",
-    category: "Транспорт",
-    comment: "Проездной",
-    amount: 2450,
-  },
-  {
-    id: 4,
-    date: "05 ноя",
-    type: "expense",
-    category: "Учёба",
-    comment: "Учебники",
-    amount: 1280,
-  },
-];
+import { useOperations, useUser } from "../store";
 
 const chartData = [
   { day: "1", income: 60, expense: 44 },
@@ -76,53 +31,24 @@ const chartData = [
 
 export function OverviewPage() {
   const currentUser = useUser();
-  const [transactions, setTransactions] = useState(initialTransactions);
+  const operations = useOperations();
+  const [period, setPeriod] = useState("2026-11"); // добавить текущий месяц
   const [summary, setSummary] = useState({
     income: 68500,
     expenses: 25820,
   });
-  const [dialogOpen, setDialogOpen] = useState(false);
+
+  // const summary = useMemo(
+  //   () =>
+  //     сщтые operations.filter((operation) => {
+
+  //     }),
+  //   [operations, period],
+  // );
+
   const [savedMessage, setSavedMessage] = useState(true);
-  const [form, setForm] = useState({
-    type: "expense",
-    amount: "",
-    category: "",
-    comment: "",
-  });
 
   const balance = summary.income - summary.expenses;
-
-  const addTransaction = () => {
-    const amount = Number(form.amount);
-
-    if (!amount || amount <= 0 || !form.category) return;
-
-    const transaction = {
-      id: Date.now(),
-      date: "Сегодня",
-      type: form.type,
-      category: form.category,
-      comment: form.comment || "Без комментария",
-      amount,
-    };
-
-    setTransactions((current) => [transaction, ...current].slice(0, 4));
-
-    setSummary((current) => ({
-      income: form.type === "income" ? current.income + amount : current.income,
-      expenses:
-        form.type === "expense" ? current.expenses + amount : current.expenses,
-    }));
-
-    setSavedMessage(true);
-    setForm({ type: "expense", amount: "", category: "", comment: "" });
-    setDialogOpen(false);
-  };
-
-  const categories =
-    form.type === "income"
-      ? ["Стипендия", "Подработка", "Подарок", "Другое"]
-      : ["Питание", "Транспорт", "Учёба", "Жильё", "Другое"];
 
   return (
     <>
@@ -146,7 +72,6 @@ export function OverviewPage() {
                   Контролируйте бюджет спокойно и без лишних сложностей
                 </Typography>
               </Box>
-              <AddButton handleClick={() => setDialogOpen(true)} />
             </Stack>
 
             <Box
@@ -334,7 +259,7 @@ export function OverviewPage() {
                 </Stack>
 
                 <Stack divider={<Divider flexItem />}>
-                  {transactions.map((transaction) => {
+                  {operations.map((transaction) => {
                     const isIncome = transaction.type === "income";
 
                     return (
@@ -431,85 +356,6 @@ export function OverviewPage() {
           </Box>
         </Box>
       </Box>
-
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        fullWidth
-        maxWidth="xs"
-      >
-        <DialogTitle>Добавить операцию</DialogTitle>
-
-        <DialogContent>
-          <Stack spacing={2} sx={{ pt: 1 }}>
-            <FormControl fullWidth>
-              <InputLabel>Тип операции</InputLabel>
-              <Select
-                label="Тип операции"
-                value={form.type}
-                onChange={(event) =>
-                  setForm({
-                    ...form,
-                    type: event.target.value,
-                    category: "",
-                  })
-                }
-              >
-                <MenuItem value="expense">Расход</MenuItem>
-                <MenuItem value="income">Доход</MenuItem>
-              </Select>
-            </FormControl>
-
-            <TextField
-              label="Сумма, ₽"
-              type="number"
-              value={form.amount}
-              onChange={(event) =>
-                setForm({ ...form, amount: event.target.value })
-              }
-              slotProps={{
-                htmlInput: {
-                  min: 1,
-                },
-              }}
-              fullWidth
-            />
-
-            <FormControl fullWidth>
-              <InputLabel>Категория</InputLabel>
-              <Select
-                label="Категория"
-                value={form.category}
-                onChange={(event) =>
-                  setForm({ ...form, category: event.target.value })
-                }
-              >
-                {categories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <TextField
-              label="Комментарий"
-              value={form.comment}
-              onChange={(event) =>
-                setForm({ ...form, comment: event.target.value })
-              }
-              fullWidth
-            />
-          </Stack>
-        </DialogContent>
-
-        <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setDialogOpen(false)}>Отмена</Button>
-          <Button variant="contained" onClick={addTransaction}>
-            Сохранить
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }

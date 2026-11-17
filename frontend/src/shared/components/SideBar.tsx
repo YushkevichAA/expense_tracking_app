@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router";
 import { NavItem } from "./NavItem";
 import {
-  DashboardOutlined,
+  // DashboardOutlined,
   ReceiptLongOutlined,
   SchoolOutlined,
 } from "@mui/icons-material";
@@ -11,14 +11,14 @@ export const SideBar = () => {
   console.log(pathname);
   return (
     <nav>
-      <NavLink to="/" end>
+      {/* <NavLink to="/" end>
         <NavItem
           icon={<DashboardOutlined fontSize="small" />}
           selected={pathname === "/"}
         >
           Обзор
         </NavItem>
-      </NavLink>
+      </NavLink> */}
       <NavLink to="/operations">
         <NavItem
           icon={<ReceiptLongOutlined fontSize="small" />}
