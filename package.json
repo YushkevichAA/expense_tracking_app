@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "@nestjs/config": "^12.1.1"
-  }
-}
