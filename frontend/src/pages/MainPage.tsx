@@ -16,13 +16,22 @@ import { LogoutOutlined } from "@mui/icons-material";
 import { useLoaderData, useMatches, useNavigate } from "react-router";
 import { SideBar } from "../shared/components";
 import { Outlet } from "react-router";
-import { getAllTransactions, signOutService } from "../services/server.service";
+import {
+  getAllPaymentsService,
+  getAllTransactions,
+  signOutService,
+} from "../services/server.service";
 import { useEffect } from "react";
-import { useOperationsActions, useUserActions } from "../store";
+import {
+  useOperationsActions,
+  usePaymentsActions,
+  useUserActions,
+} from "../store";
 import type { TUser } from "../store/userStore";
 
 export function MainPage() {
   const { setOperations } = useOperationsActions();
+  const { setPayments } = usePaymentsActions();
   const { setUser } = useUserActions();
   const loadedUser: TUser = useLoaderData();
   const navigate = useNavigate();
@@ -40,7 +49,16 @@ export function MainPage() {
       }
       setOperations(response.data);
     };
+    const fetchDataPayments = async () => {
+      const response = await getAllPaymentsService();
+      if (!response?.data) {
+        return;
+      }
+      setPayments(response.data);
+    };
+
     fetchDataTransactions();
+    fetchDataPayments();
     setUser(loadedUser);
     console.log("прошла загрузка пользователя");
   }, []);
@@ -50,16 +68,6 @@ export function MainPage() {
       .reverse()
       .map((match) => (match.handle as { title: string } | undefined)?.title)
       .find((value) => value !== undefined) ?? "ФинПлан";
-
-  // const currentPage = navigationList.find((item) =>
-  //   matchPath(
-  //     {
-  //       path: item.path,
-  //       end: item.path === "/",
-  //     },
-  //     pathname,
-  //   ),
-  // );
 
   useEffect(() => {
     document.title = `${title} — ФинПлан`;

@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios";
-import type { IOperation } from "../shared/types";
+import type { IOperation, IPayment } from "../shared/types";
 import apiClient from "./httpClient.service";
 
 // получение информации по авторизованному пользователю
@@ -52,4 +52,32 @@ export async function patchTransactionService(
 // обновление одной операции
 export async function deleteTransaction(id: string) {
   return await apiClient.delete(`/operation/${id}`);
+}
+
+// получение платежа
+export async function getAllPaymentsService() {
+  return await apiClient.get("/payment");
+}
+
+// получение одного платежа
+export async function getPaymentByIdService(id: string) {
+  return await apiClient.get(`/payment/${id}`);
+}
+
+// получение одного платежа
+export async function setPaymentService(payment: Omit<IPayment, "id">) {
+  return await apiClient.post(`/payment`, payment);
+}
+
+// обновление одного платежа
+export async function patchPaymentService(
+  payment: IPayment,
+): Promise<AxiosResponse<IPayment>> {
+  const { id, ...data } = payment;
+  return await apiClient.patch(`/payment/${id}`, data);
+}
+
+// обновление одного платежа
+export async function deletePaymentService(id: string) {
+  return await apiClient.delete(`/payment/${id}`);
 }

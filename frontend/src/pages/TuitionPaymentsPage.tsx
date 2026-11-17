@@ -15,71 +15,38 @@ import {
 } from "@mui/material";
 
 import { AddRounded, InfoOutlined } from "@mui/icons-material";
-import { formatMoney } from "../shared";
+import { formatDateFromString, formatMoney } from "../shared";
+import { usePayments, usePaymentsActions } from "../store";
+import type { IPayment } from "../shared/types";
+import {
+  deletePaymentService,
+  patchPaymentService,
+  setPaymentService,
+} from "../services/server.service";
 
-type TStatusPayment = "planned" | "paid" | "overdue";
-
-// fake data
-const initialPayments = [
-  {
-    id: 1,
-    title: "Осенний семестр",
-    amount: 24000,
-    dueDate: "2026-11-25",
-    status: "planned",
+const statusConfig = {
+  planned: {
+    label: "Запланирован",
+    color: "#e66a00",
+    background: "#fff3e0",
   },
-  {
-    id: 2,
-    title: "Зимняя сессия",
-    amount: 24000,
-    dueDate: "2027-01-20",
-    status: "paid",
+  paid: {
+    label: "Оплачен",
+    color: "#267a35",
+    background: "#e8f5e9",
   },
-  {
-    id: 3,
-    title: "Весенний семестр",
-    amount: 24000,
-    dueDate: "2027-02-25",
-    status: "overdue",
+  overdue: {
+    label: "Просрочен",
+    color: "#c62828",
+    background: "#ffebee",
   },
-];
-
-// const statusConfig = {
-//   planned: {
-//     label: "Запланирован",
-//     color: "#e66a00",
-//     background: "#fff3e0",
-//   },
-//   paid: {
-//     label: "Оплачен",
-//     color: "#267a35",
-//     background: "#e8f5e9",
-//   },
-//   overdue: {
-//     label: "Просрочен",
-//     color: "#c62828",
-//     background: "#ffebee",
-//   },
-// };
-
-// function formatDate(value: string) {
-//   return new Date(`${value}T00:00:00`).toLocaleDateString("ru-RU", {
-//     day: "numeric",
-//     month: "short",
-//     year: "numeric",
-//   });
-// }
+};
 
 export function TuitionPaymentsPage() {
-  const [payments, setPayments] = useState(initialPayments);
+  const payments = usePayments();
+  const { updatePayment, addPayment, deletePayment } = usePaymentsActions();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingPayment, setEditingPayment] = useState<{
-    id: string;
-    title: string;
-    amount: number;
-    dueDate: Date;
-    status: TStatusPayment;
-  } | null>(null);
+  const [editingPayment, setEditingPayment] = useState<IPayment | null>(null);
   const [form, setForm] = useState({
     title: "",
     amount: "",
@@ -101,52 +68,51 @@ export function TuitionPaymentsPage() {
     setDialogOpen(true);
   };
 
-  // const openEditDialog = (payment) => {
-  //   setEditingPayment(payment);
-  //   setForm({
-  //     title: payment.title,
-  //     amount: String(payment.amount),
-  //     dueDate: payment.dueDate,
-  //   });
-  //   setDialogOpen(true);
-  // };
+  const openEditDialog = (payment: IPayment) => {
+    setEditingPayment(payment);
+    setForm({
+      title: payment.title,
+      amount: String(payment.amount),
+      dueDate: payment.dueDate,
+    });
+    setDialogOpen(true);
+  };
 
   const closeDialog = () => setDialogOpen(false);
 
-  const savePayment = () => {
+  const savePayment = async () => {
     if (!form.title.trim() || !form.amount || !form.dueDate) return;
 
     if (editingPayment) {
-      setPayments((current) =>
-        current.map((payment) =>
-          (editingPayment.id ?? payment.id === editingPayment.id)
-            ? { ...payment, dueDate: form.dueDate }
-            : payment,
-        ),
-      );
+      const response = await patchPaymentService(editingPayment);
+
+      updatePayment(response.data);
     } else {
-      setPayments((current) => [
-        ...current,
-        {
-          id: Date.now(),
-          title: form.title.trim(),
-          amount: Number(form.amount),
-          dueDate: form.dueDate,
-          status: "planned",
-        },
-      ]);
+      const response = await setPaymentService({
+        title: form.title.trim(),
+        amount: Number(form.amount),
+        dueDate: form.dueDate,
+        status: "planned",
+      });
+      addPayment(response.data);
     }
 
     closeDialog();
   };
 
-  // const markAsPaid = (id) => {
-  //   setPayments((current) =>
-  //     current.map((payment) =>
-  //       payment.id === id ? { ...payment, status: "paid" } : payment,
-  //     ),
-  //   );
-  // };
+  const markAsPaid = (payment: IPayment) => {
+    // добавить сюда апи на изменение данных на бэкенде
+    updatePayment(payment);
+  };
+
+  const handleDelete = async (id: string) => {
+    const response = await deletePaymentService(id);
+
+    if (response.status > 300) {
+      return;
+    }
+    deletePayment(id);
+  };
 
   return (
     <>
@@ -197,17 +163,23 @@ export function TuitionPaymentsPage() {
               {formatMoney(total)}
             </Typography>
           </Box>
-
-          <Typography sx={{ color: "text.secondary", fontSize: 11 }}>
-            {payments.length} платежа · {paidCount} оплачено
-          </Typography>
-
+          <Box
+            sx={{
+              display: "flex",
+              flex: 1,
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
+            <Typography sx={{ color: "text.secondary", fontSize: 11 }}>
+              платежи: {payments.length} · оплачено: {paidCount}
+            </Typography>
+          </Box>
           <Chip
             label="Учебный год 2026/27"
             size="small"
             sx={{
               ml: { md: "auto !important" },
-              minWidth: 138,
               justifyContent: "flex-start",
               bgcolor: "#e8f1fc",
               color: "primary.main",
@@ -219,87 +191,93 @@ export function TuitionPaymentsPage() {
         <Typography sx={{ fontWeight: 700, fontSize: 12, mb: 1.5 }}>
           Запланированные платежи
         </Typography>
-        {/* 
-            <Stack spacing={1.25}>
-              {payments.map((payment) => {
-                const status = statusConfig[payment.status];
 
-                return (
-                  <Box
-                    key={payment.id}
+        <Stack spacing={1.25}>
+          {payments.map((payment) => {
+            const status = statusConfig[payment.status];
+
+            return (
+              <Box
+                key={payment.id}
+                sx={{
+                  display: "flex",
+
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: { xs: 1.5, md: 2 },
+                  minHeight: 48,
+                  px: 1.75,
+                  py: 1.25,
+                  border: "1px solid #dfe5ed",
+                  borderRadius: 1.5,
+                }}
+              >
+                <Typography sx={{ fontWeight: 600, fontSize: 12 }}>
+                  {payment.title}
+                </Typography>
+
+                <Typography sx={{ fontWeight: 700, fontSize: 12 }}>
+                  {formatMoney(payment.amount)}
+                </Typography>
+
+                <Typography sx={{ color: "text.secondary", fontSize: 11 }}>
+                  {formatDateFromString(payment.dueDate)}
+                </Typography>
+
+                <Chip
+                  label={status.label}
+                  size="small"
+                  sx={{
+                    width: "fit-content",
+                    minWidth: 88,
+                    justifyContent: "flex-start",
+                    color: status.color,
+                    bgcolor: status.background,
+                    fontSize: 10,
+                    height: 22,
+                  }}
+                />
+
+                {payment.status === "planned" ? (
+                  <Button
+                    size="small"
+                    onClick={() => markAsPaid({ ...payment, status: "paid" })}
+                    sx={{ fontSize: 11, justifySelf: "start" }}
+                  >
+                    Отметить как оплаченный
+                  </Button>
+                ) : payment.status === "overdue" ? (
+                  <Button
+                    size="small"
+                    color="inherit"
+                    onClick={() => openEditDialog(payment)}
+                    sx={{ fontSize: 11, justifySelf: "start" }}
+                  >
+                    Изменить срок
+                  </Button>
+                ) : (
+                  <Typography
                     sx={{
-                      display: "grid",
-                      gridTemplateColumns: {
-                        xs: "1fr 1fr",
-                        md: "1.5fr 0.8fr 0.9fr 0.8fr 1.2fr",
-                      },
-                      alignItems: "center",
-                      gap: { xs: 1.5, md: 2 },
-                      minHeight: 48,
-                      px: 1.75,
-                      py: 1.25,
-                      border: "1px solid #dfe5ed",
-                      borderRadius: 1.5,
+                      color: "success.main",
+                      fontSize: 10,
+                      justifySelf: "start",
                     }}
                   >
-                    <Typography sx={{ fontWeight: 600, fontSize: 12 }}>
-                      {payment.title}
-                    </Typography>
-
-                    <Typography sx={{ fontWeight: 700, fontSize: 12 }}>
-                      {formatMoney(payment.amount)}
-                    </Typography>
-
-                    <Typography sx={{ color: "text.secondary", fontSize: 11 }}>
-                      {formatDate(payment.dueDate)}
-                    </Typography>
-
-                    <Chip
-                      label={status.label}
-                      size="small"
-                      sx={{
-                        width: "fit-content",
-                        minWidth: 88,
-                        justifyContent: "flex-start",
-                        color: status.color,
-                        bgcolor: status.background,
-                        fontSize: 10,
-                        height: 22,
-                      }}
-                    />
-
-                    {payment.status === "planned" ? (
-                      <Button
-                        size="small"
-                        onClick={() => markAsPaid(payment.id)}
-                        sx={{ fontSize: 11, justifySelf: "start" }}
-                      >
-                        Отметить как оплаченный
-                      </Button>
-                    ) : payment.status === "overdue" ? (
-                      <Button
-                        size="small"
-                        color="inherit"
-                        onClick={() => openEditDialog(payment)}
-                        sx={{ fontSize: 11, justifySelf: "start" }}
-                      >
-                        Изменить срок
-                      </Button>
-                    ) : (
-                      <Typography
-                        sx={{
-                          color: "success.main",
-                          fontSize: 10,
-                          justifySelf: "start",
-                        }}
-                      >
-                        Статус изменён вручную
-                      </Typography>
-                    )}
-                  </Box>
-                );
-              })}
-            </Stack> */}
+                    Статус изменён вручную
+                  </Typography>
+                )}
+                <Button
+                  size="small"
+                  color="inherit"
+                  onClick={() => handleDelete(payment.id)}
+                  sx={{ fontSize: 11, justifySelf: "start" }}
+                >
+                  Удалить платеж
+                </Button>
+              </Box>
+            );
+          })}
+        </Stack>
 
         <Box
           sx={{

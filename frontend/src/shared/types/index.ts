@@ -8,3 +8,13 @@ export interface IOperation {
   comment: string;
   amount: number;
 }
+
+export type TStatusPayment = "planned" | "paid" | "overdue";
+
+export interface IPayment {
+  id: string;
+  title: string;
+  amount: number;
+  dueDate: string;
+  status: TStatusPayment;
+}
