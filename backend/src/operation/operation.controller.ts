@@ -11,21 +11,12 @@ import {
 import { OperationService } from './operation.service.js';
 import { CreateOperationDto } from './dto/create-operation.dto.js';
 import { UpdateOperationDto } from './dto/update-operation.dto.js';
-import { StartOperationDto } from './dto/start-operation.dto.js';
 import { AuthenticationGuard, CurrentUser } from '@nestjs/authentication';
 
 @Controller('operation')
 @UseGuards(AuthenticationGuard)
 export class OperationController {
   constructor(private readonly operationService: OperationService) {}
-
-  @Post('start_balance')
-  create_start_balance(
-    @CurrentUser('id') user_id: string,
-    @Body() startOperationDto: StartOperationDto,
-  ) {
-    return this.operationService.start(user_id, startOperationDto);
-  }
 
   @Post()
   create(

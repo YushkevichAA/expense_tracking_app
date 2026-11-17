@@ -9,7 +9,8 @@ import {
 } from 'typeorm';
 import { User } from '../../user/user.entity.js';
 
-export type TOperation = 'expenses' | 'income' | 'start_value';
+export type TOperation = 'expenses' | 'income';
+export type TCategory = 'Питание' | 'Транспорт' | 'Учёба' | 'Жильё' | 'Другое';
 export interface IOperation {
   id: string;
   user_id: string;
@@ -33,7 +34,10 @@ export class Operation implements IOperation {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ type: 'text', unique: true })
+  @Column()
+  date!: string;
+
+  @Column()
   type!: TOperation;
 
   @Column()
@@ -41,6 +45,9 @@ export class Operation implements IOperation {
 
   @Column({ nullable: true })
   comment: string;
+
+  @Column({ nullable: true })
+  category: TCategory;
 
   @CreateDateColumn()
   createdAt: String;

@@ -8,5 +8,6 @@ import { Operation } from './entities/operation.entity.js';
   imports: [TypeOrmModule.forFeature([Operation])],
   controllers: [OperationController],
   providers: [OperationService],
+  exports: [OperationService],
 })
 export class OperationModule {}

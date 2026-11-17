@@ -20,45 +20,17 @@ export class OperationService {
     private readonly repository: Repository<Operation>,
   ) {}
 
-  async start(
-    user_id: string,
-    { amount }: StartOperationDto,
-  ): Promise<Operation> {
-    const existOperation = await this.repository.findOne({
-      where: { user_id, type: 'start_value' },
-    });
-    if (existOperation) {
-      throw new ConflictException('start value already exist');
-    }
-
-    const operation = await this.repository.save(
-      this.repository.create({
-        id: randomUUID(),
-        user_id: user_id,
-        type: 'start_value',
-        amount: amount,
-        comment: 'Начальная сумма',
-      }),
-    );
-
-    return operation;
-  }
-
   async create(
     user_id: string,
-    { type, amount, comment }: CreateOperationDto,
+    { type, amount, comment, category, date }: CreateOperationDto,
   ): Promise<Operation> {
-    const existOperation = await this.repository.findOne({
-      where: { user_id, type: 'start_value' },
-    });
-    if (!existOperation) {
-      throw new NotFoundException('start value not exist');
-    }
     const operation = await this.repository.save(
       this.repository.create({
         id: randomUUID(),
         user_id,
+        date: date,
         type: type,
+        category: category,
         amount: amount,
         comment: comment ?? null,
       }),
@@ -71,11 +43,11 @@ export class OperationService {
       where: { user_id },
       select: {
         id: true,
+        date: true,
         type: true,
         amount: true,
         comment: true,
-        createdAt: true,
-        updtedAt: true,
+        category: true,
       },
     });
     return operators;
@@ -85,11 +57,12 @@ export class OperationService {
     const operator = await this.repository.findOneOrFail({
       where: { user_id, id },
       select: {
+        id: true,
+        date: true,
         type: true,
         amount: true,
         comment: true,
-        createdAt: true,
-        updtedAt: true,
+        category: true,
       },
     });
     return operator;

@@ -9,6 +9,7 @@ import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthModule } from './auth/auth.module.js';
 import { OperationModule } from './operation/operation.module.js';
 import { CategoryModule } from './category/category.module.js';
+import { PaymentModule } from './payment/payment.module.js';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { CategoryModule } from './category/category.module.js';
     UserModule,
     OperationModule,
     CategoryModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
