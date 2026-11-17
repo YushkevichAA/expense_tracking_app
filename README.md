@@ -4,15 +4,17 @@
 
 ## Структура
 
-- `backend/` — API на NestJS, TypeORM и sqlite (в тестовом варианте, в режиме продуктива можно использовать PostgreSQL).
+- `backend/` — API на NestJS, TypeORM и sqlite (в тестовом варианте, в режиме продуктива можно использовать Postgrsql).
 - `frontend/` — клиентское приложение на React и Vite .
 
 ## Быстрый старт
 
-1. Установите зависимости: `npm install`.
-2. Создайте файл окружения: `cp backend/.env.example backend/.env`.
-3. Запустите PostgreSQL: `docker compose up -d postgres`.
-4. Запустите клиент и API: `npm run dev`.
+1. Установите зависимости backend: `npm install --prefix ./backend`.
+2. Установите зависимости frontend: `npm install --prefix ./frontend`.
+3. Создайте файл окружения: `cp backend/.env.example backend/.env`.
+4. Укажите переменные окружения в файле: `backend/.env`
+5. Создайте файл базы данных: `docker compose up -d postgres`.
+6. Запустите клиент и API: `npm run dev`.
 
 После запуска фронтенд доступен по адресу `http://localhost:5173`, API — по адресу `http://localhost:3000/api`, проверка состояния API — `GET /api/health`.
 

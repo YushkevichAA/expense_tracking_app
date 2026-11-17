@@ -20,6 +20,7 @@ import { PaymentModule } from './payment/payment.module.js';
         ? resolve(process.env.DB_PATH)
         : resolve(process.cwd(), 'database.sqlite'),
       entities: [],
+      migrations: ['migrations/**/*.js'],
       autoLoadEntities: true,
       synchronize: process.env.MODE === 'development' ? true : false,
     }),
